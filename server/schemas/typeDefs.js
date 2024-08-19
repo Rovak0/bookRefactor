@@ -21,19 +21,19 @@ const typeDefs = `
     #Queries and mutations
     type Query {
         users : [User]
-        getMe(_id: String!): User
+        getMe(id: String!): User
     }
         
     type Mutation {
-        saveBook(_id: String!, title: String!): Book
+        saveBook(id: String!, title: String!): Book
         createUser(
-            _id: String!,
+            id: String!,
             username : String!
             email : String!
             password : String!
         )
-        loginUser(_id: String!, password: String!): User
-        deleteBook(_id: String!, title: String!): Book
+        loginUser(id: String!, password: String!): User
+        deleteBook(id: String!, title: String!): Book
     }
 
 `;
