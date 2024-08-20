@@ -28,9 +28,9 @@ const typeDefs = `
         saveBook(id: String!, title: String!): Book
         createUser(
             id: String!,
-            username : String!
-            email : String!
-            password : String!
+            username : String!,
+            email : String!,
+            password : String!,
         )
         loginUser(id: String!, password: String!): User
         deleteBook(id: String!, title: String!): Book

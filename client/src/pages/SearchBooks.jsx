@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useMutation, useQuery } from '@apollo/client';
 import {
   Container,
   Col,
@@ -67,12 +68,17 @@ const SearchBooks = () => {
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
+    const [saveBookMut, {error}] = useMutation(SAVE_BOOK);
+
     if (!token) {
       return false;
     }
 
     try {
-      const response = await saveBook(bookToSave, token);
+      // const response = await saveBook(bookToSave, token);
+      const response = await saveBookMut({
+        variables : { ...bookToSave, token}
+      })
 
       if (!response.ok) {
         throw new Error('something went wrong!');
