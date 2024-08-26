@@ -5,8 +5,8 @@ const { expressMiddleware } = require('@apollo/server/express4');
 const path = require('path');
 const {authMiddleware} = require('./utils/auth');
 
-const { applyMiddleware } = require('graphql-middleware');
-const { makeExecutableSchema } = require('graphql-tools');
+// const { applyMiddleware } = require('graphql-middleware');
+// const { makeExecutableSchema } = require('graphql-tools');
 
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
@@ -16,18 +16,21 @@ const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async ({ req, res }) => ({ req, res }),
+  // context: async ({ req, res }) => ({ req, res }),
 });
 
 const startApolloServer = async () => {
   await server.start();
   
   //change app to middleware function name b/c the documentation is shit
-  server.applyMiddleware({ authMiddleware }); //this is middleware 
-
+  // server.applyMiddleware({ authMiddleware }); //this is middleware 
+  
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
   
+  app.use('/graphql', expressMiddleware(server,{
+    context: authMiddleware
+  }));
   // app.use('/graphql', expressMiddleware(server));
 
   if (process.env.NODE_ENV === 'production') {
@@ -36,7 +39,7 @@ const startApolloServer = async () => {
     app.get('*', (req, res) => {
       res.sendFile(path.join(__dirname, '../client/dist/index.html'));
     });
-  }  
+  } 
 
   db.once('open', () => {
     app.listen(PORT, () => {

@@ -24,15 +24,19 @@ const typeDefs = `
         getMe(id: String!): User
     }
         
-    type Mutation {
+    type Mutation{
+
         saveBook(id: String!, title: String!): Book
+
         createUser(
             id: String!,
             username : String!,
             email : String!,
             password : String!,
-        )
+        ): User
+
         loginUser(id: String!, password: String!): User
+
         deleteBook(id: String!, title: String!): Book
     }
 
