@@ -26,7 +26,6 @@ const resolvers = {
         },
         deleteBook: async (parent, {id, bookId}) => {
             //id is the user is
-            //title is the book title
             //go into users, find the user, pull their book array, add the book
             // const user= await User.findOne({_id : id});
             //find 1 and update is still a thing
@@ -37,11 +36,19 @@ const resolvers = {
             );
             return user;
         },
-        createUser: async (parent, {id, username, email, password}) => {
+        createUser: async (parent, {username, email, password}) => {
             //the password runs through bycrypt automatically
-            const user = await User.create({_id: id, username, email, password});
-            const token = signToken(user);
-            return user;
+            console.log("here");
+            // console.log(username, email, password);
+            try{
+                const newUser = await User.create({username, email, password});
+                const token = signToken(newUser);
+                // console.log(token)
+                return {token, newUser};
+            }
+            catch(err){
+                console.log(err);
+            }
         },
 
         loginUser: async (parent, {id, password}) => {

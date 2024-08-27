@@ -9,15 +9,17 @@ import {
   Col
 } from 'react-bootstrap';
 
-import { getMe, deleteBook } from '../utils/API';
+// import { getMe, deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
+import { GET_ME } from '../utils/queries';
+import { REMOVE_BOOK } from '../utils/mutations';
 
 const SavedBooks = () => {
   const [userData, setUserData] = useState({});
 
   // use this to determine if `useEffect()` hook needs to run again
-  const userDataLength = Object.keys(userData).length;
+  // const userDataLength = Object.keys(userData).length;
 
   // useEffect(() => {
   //   const getUserData = async () => {
@@ -44,9 +46,11 @@ const SavedBooks = () => {
   //   getUserData();
   // }, [userDataLength]);
     let { id } = useParams();
-    const {loading, data} = useQuery(getMe, {
+    const {loading, data} = useQuery(GET_ME, {
       variables: {_id:id}
-    })
+    });
+    setUserData(data);
+    console.log(data);
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
@@ -58,10 +62,13 @@ const SavedBooks = () => {
 
     try {
       // const response = await deleteBook(bookId, token);
-      const response = useMutation(REMOVE_BOOK, variables: {token, bookId})
+      // const response = useMutation(REMOVE_BOOK, {variables: {token: bookId}})
+      const response = useMutation(REMOVE_BOOK, {
+        variables: {id: token.id, bokkId: bookId}
+      })
 
       if (!response.ok) {
-        throw new Error('something went wrong!');
+        throw Error('something went wrong!');
       }
 
       const updatedUser = await response.json();
@@ -74,13 +81,13 @@ const SavedBooks = () => {
   };
 
   // if data isn't here yet, say so
-  if (!userDataLength) {
+  if (!loading) {
     return <h2>LOADING...</h2>;
   }
 
   return (
     <>
-      <div fluid className="text-light bg-dark p-5">
+      <div className="text-light bg-dark p-5">
         <Container>
           <h1>Viewing saved books!</h1>
         </Container>
@@ -94,8 +101,8 @@ const SavedBooks = () => {
         <Row>
           {userData.savedBooks.map((book) => {
             return (
-              <Col md="4">
-                <Card key={book.bookId} border='dark'>
+              <Col md="4" key={book.bookId} >
+                <Card border='dark'>
                   {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
                   <Card.Body>
                     <Card.Title>{book.title}</Card.Title>

@@ -37,6 +37,8 @@ const SearchBooks = () => {
     }
 
     try {
+      //this isn't part of the back end
+      //this is a call to a 3rd party api, so I didn't touch it
       const response = await searchGoogleBooks(searchInput);
 
       if (!response.ok) {

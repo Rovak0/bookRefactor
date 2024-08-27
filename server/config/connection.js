@@ -1,5 +1,9 @@
-const mongoose = require('mongoose');
+const { connect, connection } = require('mongoose');
+// require("dotenv").config();
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/googlebooks');
+// const connectionString = 'mongodb://127.0.0.1:27017/financeDB';
+const connectionString = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/goldDive';
 
-module.exports = mongoose.connection;
+connect(connectionString);
+
+module.exports = connection;
