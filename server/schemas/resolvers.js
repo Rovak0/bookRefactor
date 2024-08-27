@@ -5,8 +5,12 @@ const { signToken, AuthenticationError } = require("../utils/auth");
 const resolvers = {
     Query : {
         //only 1 query, getMe
-        getMe: async (parent, {id}) => {
-            return await User.findOne({_id : id});
+        getMe: async () => {
+            console.log("Hello");
+            // console.log("Hello");
+            const user = await User.findOne({ _id: context.user._id });
+            // const token = signToken(user);
+            return user;
         }
     },
 
@@ -41,7 +45,7 @@ const resolvers = {
             console.log("here");
             // console.log(username, email, password);
             try{
-                const newUser = await User.create({username, email, password});
+                const newUser = await User.create({username, email, password, savedBooks: []});
                 const token = signToken(newUser);
                 // console.log(token)
                 return {token, newUser};

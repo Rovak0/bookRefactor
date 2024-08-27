@@ -1,19 +1,19 @@
 import { gql } from '@apollo/client';
 
 export const SAVE_BOOK  = gql`
-  mutation saveBook($id: String!, $title: String!) {
-    saveBook(id: $String, title: $String) {
+  mutation saveBook($id: String!, $bookId: String!) {
+    saveBook(id: $String, bookId: $String) {
       id
-      title
+      bookId
     }
   }
 `;
 
 export const REMOVE_BOOK  = gql`
-  mutation deleteBook($id: String!, $title: String!) {
-    deleteBook(id: $id, title: $title) {
+  mutation deleteBook($id: String!, $bookId: String!) {
+    deleteBook(id: $id, bookId: $bookId) {
       id
-      title
+      bookId
     }
   }
 `;

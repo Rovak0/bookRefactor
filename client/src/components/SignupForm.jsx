@@ -35,7 +35,7 @@ const SignupForm = () => {
       // console.log(" username: ", userFormData.username,
       //   "email: ", userFormData.email,
       //   "password: ", userFormData.password)
-      const {token} = await createUser({
+      const {token, data} = await createUser({
         variables: {
           username: userFormData.username,
           email: userFormData.email,
@@ -51,7 +51,8 @@ const SignupForm = () => {
       // console.log(user);
       // Auth.login(token);
       // console.log(userData);
-      Auth.login(token);
+      // console.log("Data", data.createUser.token);
+      Auth.login(data.createUser.token);
     } catch (err) {
       console.error(err);
       setShowAlert(true);
