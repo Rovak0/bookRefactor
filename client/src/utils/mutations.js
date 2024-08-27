@@ -2,10 +2,7 @@ import { gql } from '@apollo/client';
 
 export const SAVE_BOOK  = gql`
   mutation saveBook($id: String!, $bookId: String!) {
-    saveBook(id: $String, bookId: $String) {
-      id
-      bookId
-    }
+    saveBook(id: $id, bookId: $bookId)
   }
 `;
 

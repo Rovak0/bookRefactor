@@ -74,6 +74,7 @@ const SearchBooks = () => {
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
+    // console.log(Auth.getProfile().data._id);
 
 
     if (!token) {

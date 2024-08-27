@@ -15,15 +15,16 @@ const resolvers = {
     },
 
     Mutation: {
-        saveBook: async (parent, {id, body}) => { //it seems like the books is to be passed in it entirety
+        saveBook: async (parent, {id, bookId}) => { //it seems like the books is to be passed in it entirety
             //id is the user is
             //title is the book title
             //go into users, find the user, pull their book array, add the book
             // const user= await User.findOne({_id : id});
             //find 1 and update is still a thing
+            console.log("Saving");
             const user = await User.findOneAndUpdate(
                 {_id : id},
-                { $addToSet: { savedBooks: body } },
+                { $addToSet: { savedBooks: bookId } },
                 { new: true, runValidators: true }
             );
             return user;

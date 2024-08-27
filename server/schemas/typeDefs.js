@@ -31,7 +31,7 @@ const typeDefs = `
         
     type Mutation{
 
-        saveBook(id: String!, title: String!): Book
+        saveBook(id: String!, bookId: String!): User
 
         createUser(
             username : String!,
