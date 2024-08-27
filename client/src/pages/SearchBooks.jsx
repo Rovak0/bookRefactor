@@ -24,7 +24,6 @@ const SearchBooks = () => {
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
   const [saveBookMut, {error}] = useMutation(SAVE_BOOK);
-  let id = Auth.getProfile().data._id;
   // console.log(id);
 
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
@@ -80,6 +79,8 @@ const SearchBooks = () => {
     if (!token) {
       return false;
     }
+
+    let id = Auth.getProfile().data._id;
 
     try {
       // const response = await saveBook(bookToSave, token);
